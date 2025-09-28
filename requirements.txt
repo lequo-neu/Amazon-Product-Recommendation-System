@@ -1,0 +1,11 @@
+pathlib
+pandas
+numpy
+scipy
+matplotlib
+seaborn
+scikit-learn
+json
+pickle
+
+# python -m pip install requests
