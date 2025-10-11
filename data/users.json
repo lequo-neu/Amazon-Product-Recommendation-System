@@ -1,0 +1,189 @@
+{
+  "hungle": {
+    "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "email": "le.quo@northeastern.edu",
+    "ratings": []
+  },
+  "AFVHVIC54M65INX4PB5K2XEWTRCQ": {
+    "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "email": "user1@test.com",
+    "ratings": []
+  },
+  "admin": {
+    "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
+    "email": "admin@northeastern.edu",
+    "preferences": {},
+    "rating_history": []
+  },
+  "tester1": {
+    "password": "2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea",
+    "email": "tester1@gmail.com",
+    "preferences": {},
+    "rating_history": [
+      {
+        "parent_asin": "B0BVGHXZJ1",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0BVGHXZJ1",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08484Q1JB",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0C8633DBV",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0BV93KQZR",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KZ1TZYB",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B07HZLHPKP",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08KG14KCT",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 3
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B094NDM6ZH",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B00CX5P8FC",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B00CX5P8FC",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B00CX5P8FC",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B0C2HWSXNL",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B0C2HWSXNL",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B0C2HWSXNL",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B0C2HWSXNL",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B0BW4PFM58",
+        "rating": 1
+      }
+    ]
+  }
+}
