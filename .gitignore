@@ -53,8 +53,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-cover/
-analyze_threshold.py
+cover
 
 # Jupyter Notebook
 .ipynb_checkpoints
