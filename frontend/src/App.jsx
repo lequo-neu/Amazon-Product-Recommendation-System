@@ -32,10 +32,13 @@ function App() {
   const [categories, setCategories] = useState(FALLBACK_CATEGORIES); // Use fallback initially
   const [recommendations, setRecommendations] = useState([]);
   const [strategy, setStrategy] = useState('');
+  const [userScenario, setUserScenario] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [showCategoryMenu, setShowCategoryMenu] = useState(false);
+  const [showColdItems, setShowColdItems] = useState(false);
+  const [groupedColdItems, setGroupedColdItems] = useState({});
 
   // Helper function to get display name
   const getCategoryDisplayName = (category) => {
@@ -55,9 +58,13 @@ function App() {
 
   useEffect(() => {
     if (selectedCategory) {
-      fetchRecommendations();
+      if (showColdItems) {
+        fetchColdItems();
+      } else {
+        fetchRecommendations();
+      }
     }
-  }, [isLoggedIn, selectedCategory]);
+  }, [isLoggedIn, selectedCategory, showColdItems]);
 
   const fetchCategories = async () => {
     try {
@@ -145,6 +152,7 @@ function App() {
         const boostedRecs = boostRatedItems(data.recommendations, selectedCategory);
         setRecommendations(boostedRecs);
         setStrategy(data.strategy || '');
+        setUserScenario(data.user_scenario || null);
       } else {
         setError(data.error || 'No recommendations available');
       }
@@ -166,11 +174,37 @@ function App() {
         const userRatings = JSON.parse(localStorage.getItem('userRatings') || '{}');
         userRatings[parent_asin] = { rating, timestamp: Date.now(), category: selectedCategory };
         localStorage.setItem('userRatings', JSON.stringify(userRatings));
-        await fetchRecommendations();
+        
+        // Refresh data based on current view
+        if (showColdItems) {
+          await fetchColdItems();
+        } else {
+          await fetchRecommendations();
+        }
       }
     } catch (err) {
       console.error('Failed to rate product:', err);
     }
+  };
+
+  const fetchColdItems = async () => {
+    setLoading(true);
+    setError('');
+    try {
+      const response = await fetch(`${API_URL}/cold-items/${selectedCategory}`);
+      const data = await response.json();
+      
+      if (data.grouped_items) {
+        setGroupedColdItems(data.grouped_items);
+      } else {
+        setError(data.error || 'No cold items available');
+        setGroupedColdItems({});
+      }
+    } catch (err) {
+      setError('Network error');
+      setGroupedColdItems({});
+    }
+    setLoading(false);
   };
 
   const boostRatedItems = (recs, selectedCategory) => {
@@ -180,8 +214,9 @@ function App() {
     const boostedRecs = recs.map(item => {
       const userRating = userRatings[item.parent_asin];
       if (userRating && userRating.category === selectedCategory) {
-        const boostFactor = 1 + (userRating.rating / 5) * 0.5;
-        return { ...item, score: item.score * boostFactor, user_rated: true, user_rating: userRating.rating };
+        const boostFactor = userRating.rating / 5;
+        const newScore = Math.round(item.score * (1 + boostFactor) * 100) / 100;
+        return { ...item, score: newScore, user_rated: true, user_rating: userRating.rating };
       }
       return item;
     });
@@ -310,6 +345,19 @@ function App() {
               <a href="#" className="text-white hover:border border-white px-2 py-1 rounded whitespace-nowrap">Customer Service</a>
               <a href="#" className="text-white hover:border border-white px-2 py-1 rounded whitespace-nowrap">Registry</a>
               <a href="#" className="text-white hover:border border-white px-2 py-1 rounded whitespace-nowrap">Gift Cards</a>
+              
+              {/* Cold Items Checkbox - Before Categories */}
+              <label className="flex items-center space-x-2 text-white hover:bg-[#374151] px-3 py-1 rounded cursor-pointer whitespace-nowrap">
+                <input
+                  type="checkbox"
+                  checked={showColdItems}
+                  onChange={(e) => setShowColdItems(e.target.checked)}
+                  className="w-4 h-4 rounded border-gray-300 text-yellow-400 focus:ring-yellow-400 focus:ring-2 cursor-pointer"
+                />
+                <span className="text-sm font-medium">Show Cold Items Only</span>
+              </label>
+              
+              <div className="border-l border-gray-500 h-6 mx-2"></div>
               
               {/* Display all categories in secondary nav */}
               {categories.map(cat => (
@@ -454,22 +502,43 @@ function App() {
           </div>
           
           {strategy && (
-            <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded-r">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-900">
-                    {isLoggedIn ? (
-                      <>Personalized recommendations using <span className="text-blue-700 font-bold">{strategy}</span> algorithm</>
-                    ) : (
-                      <>Trending products in {getCategoryDisplayName(selectedCategory)} <span className="text-blue-700 font-bold">(Sign in for personalized recommendations)</span></>
-                    )}
-                  </p>
-                  <p className="text-xs text-gray-600 mt-1">
-                    {isLoggedIn 
-                      ? 'Based on your browsing history, ratings, and similar customers'
-                      : 'Popular products based on ratings and recent activity'
-                    }
-                  </p>
+            <div className="space-y-3">
+              {/* User Scenario Badge */}
+              {userScenario && (
+                <div className="inline-block" style={{
+                  backgroundColor: userScenario.color,
+                  padding: '12px 16px',
+                  borderRadius: '8px',
+                  color: '#fff'
+                }}>
+                  <div className="flex items-center space-x-2">
+                    <span style={{ fontSize: '24px' }}>{userScenario.emoji}</span>
+                    <div>
+                      <div className="font-bold text-base">{userScenario.type}</div>
+                      <div className="text-sm opacity-90">{userScenario.description}</div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {/* Algorithm Strategy */}
+              <div className="bg-blue-50 border-l-4 border-blue-400 p-3 rounded-r">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm font-medium text-gray-900">
+                      {isLoggedIn ? (
+                        <>🎯 Algorithm Strategy: <span className="text-blue-700 font-bold">{strategy}</span></>
+                      ) : (
+                        <>Trending products in {getCategoryDisplayName(selectedCategory)} <span className="text-blue-700 font-bold">(Sign in for personalized recommendations)</span></>
+                      )}
+                    </p>
+                    <p className="text-xs text-gray-600 mt-1">
+                      {isLoggedIn 
+                        ? 'Combining multiple algorithms based on your profile'
+                        : 'Popular products based on ratings and recent activity'
+                      }
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -528,7 +597,49 @@ function App() {
           </div>
         )}
 
-        {recommendations.length > 0 && (
+        {showColdItems && Object.keys(groupedColdItems).length === 0 && !loading && (
+          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 rounded-r">
+            <div className="flex items-start">
+              <span className="text-3xl mr-4">🌱</span>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900 mb-2">No Cold Items Found</h2>
+                <p className="text-sm text-gray-700 mb-2">
+                  The current category ({getCategoryDisplayName(selectedCategory)}) doesn't have any cold items (products with limited training data).
+                </p>
+                <p className="text-sm text-gray-600">
+                  Try selecting a different category or uncheck "Show Cold Items Only" to see all recommendations.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {showColdItems && Object.keys(groupedColdItems).length > 0 && (
+          <div>
+            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-r mb-6">
+              <div className="flex items-start">
+                <span className="text-2xl mr-3">🌱</span>
+                <div>
+                  <h2 className="text-lg font-bold text-gray-900 mb-1">Cold Items - By Training Rating Count</h2>
+                  <p className="text-sm text-gray-700">Items grouped by number of ratings in training set. Scroll right to see more items in each row.</p>
+                </div>
+              </div>
+            </div>
+            
+            {/* 4 Rows: 4-rating, 3-rating, 2-rating, 1-rating */}
+            {[4, 3, 2, 1].map(ratingLevel => (
+              <ColdItemRow
+                key={ratingLevel}
+                ratingLevel={ratingLevel}
+                items={groupedColdItems[ratingLevel] || []}
+                onRate={handleRate}
+                isLoggedIn={isLoggedIn}
+              />
+            ))}
+          </div>
+        )}
+
+        {!showColdItems && recommendations.length > 0 && (
           <div>
             <h1 className="text-2xl font-medium text-gray-900 mb-4">
               {isLoggedIn ? 'Recommended for you' : 'Trending products'} in {getCategoryDisplayName(selectedCategory)}
@@ -617,6 +728,8 @@ function ProductCard({ product, onRate, rank, isLoggedIn }) {
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [isWishlisted, setIsWishlisted] = useState(false);
+  
+  const itemScenario = product.item_scenario;
 
   const handleRatingSubmit = () => {
     if (selectedRating > 0) {
@@ -640,8 +753,25 @@ function ProductCard({ product, onRate, rank, isLoggedIn }) {
 
   return (
     <div className="bg-white rounded border border-transparent hover:border-gray-300 hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer">
-      <div className="relative bg-white p-4 flex items-center justify-center h-64">
-        {rank <= 3 && (
+      <div className="relative bg-white p-4 flex items-center justify-center overflow-hidden" style={{ height: '256px' }}>
+        {/* Item Scenario Badge */}
+        {itemScenario && (
+          <div className="absolute top-3 left-3 z-10">
+            <div style={{
+              backgroundColor: itemScenario.color,
+              color: '#fff',
+              fontSize: '11px',
+              fontWeight: 'bold',
+              padding: '4px 8px',
+              borderRadius: '4px',
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}>
+              {itemScenario.emoji} {itemScenario.type}
+            </div>
+          </div>
+        )}
+        
+        {rank <= 3 && !itemScenario && (
           <div className="absolute top-3 left-3 z-10">
             <div className="bg-[#CC0C39] text-white text-xs font-bold px-2.5 py-1 rounded-sm shadow">
               Best Seller #{rank}
@@ -713,7 +843,7 @@ function ProductCard({ product, onRate, rank, isLoggedIn }) {
 
         <div className="flex items-center justify-between flex-wrap gap-1">
           <div className="text-xs bg-green-100 text-green-800 font-medium px-2 py-1 rounded">
-            {(product.score * 100).toFixed(0)}% Match
+            {Math.min(((product.score / 5) * 100), 100).toFixed(0)}% Match
           </div>
           
           {/* Show user's own rating if exists */}
@@ -753,6 +883,244 @@ function ProductCard({ product, onRate, rank, isLoggedIn }) {
             onClick={(e) => {
               e.stopPropagation();
               setShowAuth(true);
+            }}
+            className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-gray-900 text-sm font-medium py-2 rounded-lg border border-[#FCD200] shadow-sm transition"
+          >
+            Add to Cart
+          </button>
+        )}
+
+        {isLoggedIn && showRating && (
+          <div className="space-y-2 bg-gray-50 p-3 rounded-lg border border-gray-200">
+            <p className="text-xs text-gray-700 font-medium text-center">How would you rate this?</p>
+            <div className="flex justify-center space-x-1">
+              {[1, 2, 3, 4, 5].map(rating => (
+                <button
+                  key={rating}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setSelectedRating(rating);
+                  }}
+                  onMouseEnter={() => setHoverRating(rating)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  className="transition-transform hover:scale-110"
+                >
+                  <Star
+                    className={`w-7 h-7 ${
+                      rating <= (hoverRating || selectedRating)
+                        ? 'fill-[#FFA41C] text-[#FFA41C]'
+                        : 'fill-gray-200 text-gray-200'
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+            <div className="flex space-x-2 pt-1">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRatingSubmit();
+                }}
+                disabled={selectedRating === 0}
+                className="flex-1 bg-[#FFD814] hover:bg-[#F7CA00] text-gray-900 py-1.5 rounded text-sm font-medium border border-[#FCD200] disabled:opacity-50"
+              >
+                Submit
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setShowRating(false);
+                  setSelectedRating(0);
+                  setHoverRating(0);
+                }}
+                className="flex-1 bg-white border border-gray-300 text-gray-700 py-1.5 rounded text-sm hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ColdItemRow({ ratingLevel, items, onRate, isLoggedIn }) {
+  const scrollRef = React.useRef(null);
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 5;
+  const totalPages = Math.ceil(items.length / itemsPerPage);
+
+  const scroll = (direction) => {
+    if (direction === 'left' && currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    } else if (direction === 'right' && currentPage < totalPages - 1) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  if (items.length === 0) return null;
+
+  const startIdx = currentPage * itemsPerPage;
+  const endIdx = Math.min(startIdx + itemsPerPage, items.length);
+  const displayedItems = items.slice(startIdx, endIdx);
+
+  return (
+    <div className="mb-8">
+      <h3 className="text-lg font-bold text-gray-900 mb-3">
+        {ratingLevel} Rating{ratingLevel > 1 ? 's' : ''}
+        <span className="text-sm font-normal text-gray-600 ml-2">
+          (page {currentPage + 1} of {totalPages} - showing {displayedItems.length} of {items.length} items)
+        </span>
+      </h3>
+
+      <div className="relative">
+        {/* Left Arrow */}
+        {currentPage > 0 && (
+          <button
+            onClick={() => scroll('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-100 shadow-2xl rounded-full transition-all hover:scale-110"
+            style={{ width: '56px', height: '56px', border: '2px solid #232F3E' }}
+          >
+            <ChevronDown className="w-8 h-8 rotate-90 text-gray-900 mx-auto" />
+          </button>
+        )}
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-16">
+          {displayedItems.map(item => (
+            <ColdItemCard key={item.parent_asin} item={item} onRate={onRate} isLoggedIn={isLoggedIn} />
+          ))}
+        </div>
+
+        {/* Right Arrow */}
+        {currentPage < totalPages - 1 && (
+          <button
+            onClick={() => scroll('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 bg-white hover:bg-gray-100 shadow-2xl rounded-full transition-all hover:scale-110"
+            style={{ width: '56px', height: '56px', border: '2px solid #232F3E' }}
+          >
+            <ChevronDown className="w-8 h-8 -rotate-90 text-gray-900 mx-auto" />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ColdItemCard({ item, onRate, isLoggedIn }) {
+  const [showRating, setShowRating] = useState(false);
+  const [selectedRating, setSelectedRating] = useState(0);
+  const [hoverRating, setHoverRating] = useState(0);
+  const [isWishlisted, setIsWishlisted] = useState(false);
+
+  const handleRatingSubmit = () => {
+    if (selectedRating > 0) {
+      onRate(item.parent_asin, selectedRating);
+      setShowRating(false);
+      setSelectedRating(0);
+      setHoverRating(0);
+    }
+  };
+
+  const formatPrice = (price) => {
+    if (!price || price === 'N/A') return null;
+    const priceStr = typeof price === 'string' ? price.replace(/[^0-9.]/g, '') : String(price);
+    const priceNum = parseFloat(priceStr);
+    return isNaN(priceNum) ? null : priceNum.toFixed(2);
+  };
+
+  const priceFormatted = formatPrice(item.price);
+  const priceDollars = priceFormatted ? priceFormatted.split('.')[0] : null;
+  const priceCents = priceFormatted ? priceFormatted.split('.')[1] : null;
+
+  return (
+    <div className="bg-white rounded border border-transparent hover:border-gray-300 hover:shadow-lg transition-all duration-200 overflow-hidden group cursor-pointer">
+      <div className="relative bg-white p-4 flex items-center justify-center overflow-hidden" style={{ height: '256px' }}>
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setIsWishlisted(!isWishlisted);
+          }}
+          className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity z-10"
+        >
+          <Heart 
+            className={`w-6 h-6 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-600'} hover:scale-110 transition-transform`}
+          />
+        </button>
+
+        <img
+          src={item.image_url || 'https://m.media-amazon.com/images/G/01/x-locale/common/grey-pixel.jpg'}
+          alt={item.title}
+          className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-300"
+          onError={(e) => { 
+            e.target.src = 'https://m.media-amazon.com/images/G/01/x-locale/common/grey-pixel.jpg';
+          }}
+        />
+      </div>
+
+      <div className="p-3 space-y-2">
+        <div className="text-xs text-gray-500">APRS sponsored</div>
+
+        <h3 className="text-sm leading-tight text-gray-900 line-clamp-2 h-10 hover:text-[#C45500] cursor-pointer">
+          {item.title || 'Product Name Unavailable'}
+        </h3>
+
+        {item.rating > 0 && (
+          <div className="flex items-center space-x-2">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-3.5 h-3.5 ${
+                    i < Math.floor(item.rating)
+                      ? 'fill-[#FFA41C] text-[#FFA41C]'
+                      : 'fill-gray-200 text-gray-200'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-[#007185] hover:text-[#C45500] cursor-pointer">
+              {item.rating_number ? `${item.rating_number.toLocaleString()}` : item.rating.toFixed(1)}
+            </span>
+          </div>
+        )}
+
+        {priceDollars ? (
+          <div className="flex items-baseline space-x-1">
+            <span className="text-xs text-gray-900 align-top">$</span>
+            <span className="text-2xl font-medium text-gray-900">{priceDollars}</span>
+            <span className="text-sm text-gray-900">{priceCents}</span>
+          </div>
+        ) : (
+          <div className="text-gray-600 text-sm">Price not available</div>
+        )}
+
+        <div className="flex items-center space-x-2 text-xs">
+          <div className="bg-[#00A8E1] text-white font-bold px-1.5 py-0.5 rounded">prime</div>
+          <span className="text-gray-700">FREE delivery</span>
+        </div>
+
+        {isLoggedIn && !showRating && (
+          <div className="space-y-2 pt-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowRating(true);
+              }}
+              className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-gray-900 text-xs font-medium py-1.5 rounded-md border border-[#FCD200] shadow-sm transition truncate"
+            >
+              Rate Product
+            </button>
+            <button className="w-full bg-[#FFA41C] hover:bg-[#FA8900] text-white text-xs font-medium py-1.5 rounded-md shadow-sm transition truncate">
+              Add to Cart
+            </button>
+          </div>
+        )}
+
+        {!isLoggedIn && (
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
             }}
             className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-gray-900 text-sm font-medium py-2 rounded-lg border border-[#FCD200] shadow-sm transition"
           >

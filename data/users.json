@@ -4,10 +4,28 @@
     "email": "le.quo@northeastern.edu",
     "ratings": []
   },
-  "AFVHVIC54M65INX4PB5K2XEWTRCQ": {
+  "AHL3TEVTN5EZI7TWZRLAO4EULXKA": {
     "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
-    "email": "user1@test.com",
-    "ratings": []
+    "email": "activeuser@northeastern.edu",
+    "ratings": [],
+    "rating_history": [
+      {
+        "parent_asin": "B0BX5QFWQN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0BX5QFWQN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08HWP19XK",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08HWRCWZX",
+        "rating": 5
+      }
+    ]
   },
   "admin": {
     "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
@@ -15,8 +33,8 @@
     "preferences": {},
     "rating_history": []
   },
-  "tester1": {
-    "password": "2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea",
+  "matthew": {
+    "password": "6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b",
     "email": "tester1@gmail.com",
     "preferences": {},
     "rating_history": [
@@ -185,5 +203,151 @@
         "rating": 1
       }
     ]
+  },
+  "le.quo": {
+    "password": "2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea",
+    "email": "le.quo@northeastern.edu",
+    "preferences": {},
+    "ratings": [],
+    "rating_history": [
+      {
+        "parent_asin": "B0BX5QFWQN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0BX5QFWQN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0BX5QFWQN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0BX5QFWQN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0BX5QFWQN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0C1J8RZ46",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B073WVCH57",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B073WVCH57",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B073WVCH57",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B073WVCH57",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B073WVCH57",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0C4K2HYLZ",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08484Q1JB",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B01M7VOJFW",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B096Y1GBPQ",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0B7RK49K5",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B0B7RK49K5",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B09D7BDNLZ",
+        "rating": 4
+      },
+      {
+        "parent_asin": "B09D7BDNLZ",
+        "rating": 3
+      },
+      {
+        "parent_asin": "B09D7BDNLZ",
+        "rating": 4
+      },
+      {
+        "parent_asin": "B0BVFVS8QG",
+        "rating": 3
+      },
+      {
+        "parent_asin": "B0BVFVS8QG",
+        "rating": 3
+      },
+      {
+        "parent_asin": "B0BVFVS8QG",
+        "rating": 2
+      },
+      {
+        "parent_asin": "B08DG5N5J8",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B09885L2DN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B09G6P7G3J",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08L72369G",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B017YNGA54",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B08NP6SWB1",
+        "rating": 1
+      },
+      {
+        "parent_asin": "B07WG9X5LN",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B07YRFJML6",
+        "rating": 5
+      },
+      {
+        "parent_asin": "B01DMEBP7M",
+        "rating": 3
+      },
+      {
+        "parent_asin": "B07C8966ND",
+        "rating": 2
+      }
+    ]
+  },
+  "AFTOQEL223UUVVLEQZ3O4PTCXIHQ": {
+    "password": "2a97516c354b68848cdbd8f54a226a0a55b21ed138e207ad6c5cbb9c00aa5aea",
+    "email": "olduser@amazon.com",
+    "preferences": {},
+    "ratings": []
   }
 }

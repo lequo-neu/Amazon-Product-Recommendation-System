@@ -98,8 +98,8 @@ class Configurations:
     # HYPERPARAMETER RANGES - Different per algorithm!
     # ========================================================================
     
-    K_VALUES_COARSE = [50, 100, 150, 200, 250]  # User-based k_neighbors
-    K_VALUES_ITEM = [20, 30, 100]     # Item-based top_k_similar
+    K_VALUES_COARSE = [10, 20, 50, 100, 150, 200]  # User-based k_neighbors
+    K_VALUES_ITEM = [10, 20, 50]     # Item-based top_k_similar
     K_VALUES_CONTENT = [10] # Content-based top_k_similar
     FACTORS_VALUES = [10, 20, 30, 50, 75]  # Model-based n_factors
     

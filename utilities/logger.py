@@ -1,53 +1,3 @@
-# # logger.py
-# import logging
-# import time
-
-# class Logger:
-#     def __init__(self, process_name='', log_file=None):
-#         if process_name:
-#             log_file += f"{process_name}_{time.strftime('%Y-%m-%d_%H%M%S')}.log"
-#         self.logger = logging.getLogger(__name__)
-#         self.logger.setLevel(logging.INFO)
-
-#         # Create a file handler for logging
-#         file_handler = logging.FileHandler(log_file)
-#         file_handler.setLevel(logging.INFO)
-        
-#         # Create a console handler for logging
-#         console_handler = logging.StreamHandler()
-#         console_handler.setLevel(logging.INFO)
-        
-#         # Define the log format
-#         log_format = '%(asctime)s - %(levelname)s - %(message)s'
-#         formatter = logging.Formatter(log_format)
-#         file_handler.setFormatter(formatter)
-#         console_handler.setFormatter(formatter)
-        
-#         # Add handlers to the logger
-#         self.logger.addHandler(file_handler)
-#         self.logger.addHandler(console_handler)
-        
-#     def log_info(self, message):
-#         """Log info messages."""
-#         self.logger.info(message)
-    
-#     def log_warning(self, message):
-#         """Log warning messages."""
-#         self.logger.warning(message)
-    
-#     def log_error(self, message):
-#         """Log error messages."""
-#         self.logger.error(message)
-    
-#     def log_debug(self, message):
-#         """Log debug messages."""
-#         self.logger.debug(message)
-    
-#     def log_exception(self, message):
-#         """Log exception messages."""
-#         self.logger.exception(message)
-
-# logger.py
 import logging
 import time
 from pathlib import Path
@@ -62,12 +12,6 @@ _LEVEL_MAP = {
 }
 
 class Logger:
-    """
-    Notebook-safe Logger:
-      - Clears old handlers to avoid duplicate logs when re-running cells.
-      - Supports custom level, file path, console on/off.
-      - File name auto-suffixed with process_name + timestamp.
-    """
     def __init__(
         self,
         process_name: str = "",

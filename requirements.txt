@@ -1,21 +1,169 @@
-polars>=0.19.0
-pandas>=2.0.0
-numpy>=1.24.0
-scikit-learn>=1.3.0
-scipy>=1.11.0
+# ==============================================================================
+# Amazon Product Recommendation System - Requirements
+# ==============================================================================
+# Updated: October 26, 2025
+# Python Version: 3.8+
+#
+# Installation: pip install -r requirements.txt
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Core Data Processing & Scientific Computing
+# ------------------------------------------------------------------------------
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.0,<3.0.0
+scipy>=1.11.0,<2.0.0
+
+# Polars for fast parquet handling (CRITICAL)
+polars>=0.19.0,<1.0.0
+
+# PyArrow for parquet file I/O (CRITICAL - Required by Polars)
+pyarrow>=14.0.0,<15.0.0
+
+# ------------------------------------------------------------------------------
+# Machine Learning & Recommendation Algorithms
+# ------------------------------------------------------------------------------
+scikit-learn>=1.3.0,<2.0.0
+
+# Nearest Neighbors for collaborative filtering
+scikit-surprise>=1.1.3
+
+# ------------------------------------------------------------------------------
+# Natural Language Processing (Content-Based Filtering)
+# ------------------------------------------------------------------------------
 nltk>=3.8.0
-matplotlib>=3.7.0
-seaborn>=0.12.0
-pillow>=10.0.0
-flask>=3.0.0
-flask-cors>=4.0.0
-flask-jwt-extended>=4.6.0
-pyjwt>=2.8.0
-passlib>=1.7.4
-bcrypt>=4.1.0
+# Optional: for advanced text processing
+# spacy>=3.6.0
+# transformers>=4.30.0  # If using BERT/embeddings
+
+# ------------------------------------------------------------------------------
+# Visualization
+# ------------------------------------------------------------------------------
+matplotlib>=3.7.0,<4.0.0
+seaborn>=0.12.0,<1.0.0
+plotly>=5.14.0
+# For image handling in metadata
+pillow>=10.0.0,<11.0.0
+
+# ------------------------------------------------------------------------------
+# Web Framework & API
+# ------------------------------------------------------------------------------
+flask>=3.0.0,<4.0.0
+flask-cors>=4.0.0,<5.0.0
+
+# JWT Authentication
+flask-jwt-extended>=4.6.0,<5.0.0
+pyjwt>=2.8.0,<3.0.0
+
+# Password hashing
+passlib>=1.7.4,<2.0.0
+bcrypt>=4.1.0,<5.0.0
+
+# WSGI Server for production
+gunicorn>=21.2.0,<22.0.0
+# Alternative: waitress>=2.1.0  # For Windows
+
+# Request handling
+werkzeug>=3.0.0,<4.0.0
+
+# ------------------------------------------------------------------------------
+# Jupyter Notebook & Development
+# ------------------------------------------------------------------------------
 jupyter>=1.0.0
-nbconvert>=7.0.0
-requests>=2.31.0
-tqdm>=4.66.0
-python-dotenv>=1.0.0
-gunicorn>=21.2.0
+jupyterlab>=4.0.0
+ipykernel>=6.25.0
+ipywidgets>=8.1.0
+nbconvert>=7.0.0,<8.0.0
+nbformat>=5.9.0
+
+# ------------------------------------------------------------------------------
+# Utilities
+# ------------------------------------------------------------------------------
+# HTTP requests
+requests>=2.31.0,<3.0.0
+
+# Progress bars
+tqdm>=4.66.0,<5.0.0
+
+# Environment variables
+python-dotenv>=1.0.0,<2.0.0
+
+# File watching for development
+watchdog>=3.0.0
+
+# ------------------------------------------------------------------------------
+# Data Validation & Type Checking (Optional but Recommended)
+# ------------------------------------------------------------------------------
+pydantic>=2.0.0,<3.0.0
+
+# ------------------------------------------------------------------------------
+# Testing (Optional)
+# ------------------------------------------------------------------------------
+pytest>=7.4.0
+pytest-cov>=4.1.0
+pytest-flask>=1.2.0
+
+# ------------------------------------------------------------------------------
+# Code Quality (Optional)
+# ------------------------------------------------------------------------------
+# black>=23.7.0  # Code formatter
+# flake8>=6.0.0  # Linter
+# mypy>=1.4.0    # Type checker
+
+# ------------------------------------------------------------------------------
+# Performance & Memory Optimization (Optional)
+# ------------------------------------------------------------------------------
+# numba>=0.57.0  # JIT compilation for numerical code
+# joblib>=1.3.0  # Parallel processing & model caching
+
+# ------------------------------------------------------------------------------
+# Specific Version Pins (For Reproducibility)
+# ------------------------------------------------------------------------------
+# If you need exact versions for reproducibility:
+# numpy==1.24.3
+# pandas==2.0.3
+# scikit-learn==1.3.2
+# flask==3.0.0
+
+# ==============================================================================
+# Installation Notes:
+# ==============================================================================
+# 
+# 1. Create virtual environment:
+#    python -m venv venv
+#    source venv/bin/activate  # Mac/Linux
+#    venv\Scripts\activate     # Windows
+#
+# 2. Upgrade pip:
+#    pip install --upgrade pip
+#
+# 3. Install requirements:
+#    pip install -r requirements.txt
+#
+# 4. Verify installation:
+#    python -c "import polars; import pyarrow; import sklearn; print('OK')"
+#
+# 5. For development (additional packages):
+#    pip install ipython jupyterlab black pytest
+#
+# ==============================================================================
+# Troubleshooting:
+# ==============================================================================
+#
+# Issue: PyArrow installation fails
+# Fix: pip install --upgrade pip setuptools wheel
+#      then: pip install pyarrow
+#
+# Issue: Polars cannot read parquet
+# Fix: Ensure pyarrow is installed: pip install pyarrow>=14.0.0
+#
+# Issue: scikit-surprise not found
+# Fix: pip install scikit-surprise (hyphen, not underscore)
+#
+# Issue: bcrypt compilation error (Windows)
+# Fix: pip install --only-binary :all: bcrypt
+#
+# Issue: Out of memory during training
+# Fix: Reduce sample size in configurations.py
+#
+# ==============================================================================
