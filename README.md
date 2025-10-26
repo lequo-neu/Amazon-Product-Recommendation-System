@@ -91,7 +91,7 @@ Just review report in ./Report/ and pre-computed results:
 OPTION 2: LIVE DEMO
 ===================
 First:
-    1. cd Amazon-Product-Recommendation-System
+    1. cd Amazon-Product-Recommendation-System and run ./notebooks/data_collection.ipynb (This download metadata for enrich UI)
     2. python -m venv venv && source venv/bin/activate  # One-time setup
     3. pip install -r requirements.txt                  # One-time install
 
