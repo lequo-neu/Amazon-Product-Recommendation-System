@@ -239,7 +239,7 @@ Real-time Refresh → NEW recommendations instantly!
 *Personalized recommendations based on user history*
 
 #### Cold-Start Handling
-![Cold-Start UI](./images/screenshots/cold-start_ui.png)
+![Cold-Start UI](./images/screenshots/cold_start_ui.png)
 *Adaptive algorithm selection for users with limited history*
 
 ### Key Features Demonstrated:
