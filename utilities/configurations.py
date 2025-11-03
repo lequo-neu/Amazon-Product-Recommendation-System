@@ -20,8 +20,8 @@ class Configurations:
     META_BASE_URL = "https://mcauleylab.ucsd.edu/public_datasets/data/amazon_2023/raw/meta_categories/meta_{category}.jsonl.gz"
     
     # Sampling
-    SAMPLE_SIZES = {'large':50000, 'big':50000} #{'small': 2000, 'medium': 20000, 'large':50000, 'big':50000, 'full': None}
-    ITEM_MULTI = 90
+    SAMPLE_SIZES = {'big':68000} #{'small': 2000, 'medium': 20000, 'large':50000, 'big':50000, 'full': None}
+    ITEM_MULTI = 79
     DEV_SAMPLE_SIZE = "big"
     
     @classmethod
@@ -79,7 +79,7 @@ class Configurations:
     # Evaluation
     EVAL_SAMPLES_TUNING = {'small': 1000, 'medium': 10000, 'large':100000, 'full': None}
     EVAL_SAMPLES_FINAL = {'small': 2000, 'medium': 20000, 'large':200000, 'full': None}
-    EVAL_SAMPLES = 5000  # Legacy
+    EVAL_SAMPLES = 10000  # Legacy
     
     @classmethod
     def get_eval_samples_tuning(cls, sample_size: str = None) -> int:
@@ -98,7 +98,7 @@ class Configurations:
     # HYPERPARAMETER RANGES - Different per algorithm!
     # ========================================================================
     
-    K_VALUES_COARSE = [10, 20, 50, 100, 150, 200]  # User-based k_neighbors
+    K_VALUES_COARSE = [10, 20, 50, 100]  # User-based k_neighbors
     K_VALUES_ITEM = [10, 20, 50]     # Item-based top_k_similar
     K_VALUES_CONTENT = [10] # Content-based top_k_similar
     FACTORS_VALUES = [10, 20, 30, 50, 75]  # Model-based n_factors

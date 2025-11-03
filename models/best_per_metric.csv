@@ -1,4 +1,4 @@
 category,best_rmse,rmse,best_accuracy,accuracy,best_ndcg@10,ndcg@10,best_recall@10,recall@10,best_map@10,map@10
-Sports_and_Outdoors,model,0.4922732006419789,hybrid,NaN,model,0.8322407970779353,hybrid,1.0,content,0.7727272727272727
-Electronics,item,0.6736450175885801,trending,NaN,trending,0.09775891869425249,trending,0.21441441441441442,trending,0.0632975832975833
-Beauty_and_Personal_Care,model,1.01024720118596,hybrid,NaN,content,0.5308198148069393,hybrid,1.0,content,0.3884249084249084
+Beauty_and_Personal_Care,model,0.7575184382193271,trending,NaN,hybrid,0.23977706469380702,item,0.5164473684210527,model,0.15918180868838766
+Sports_and_Outdoors,content,0.8376046589442662,trending,NaN,trending,0.31022057046437773,trending,0.6153846153846154,trending,0.21703601953601956
+Electronics,model,0.8193476442241698,trending,NaN,item,0.26879709995360956,item,0.6131805157593123,item,0.16822213125938057

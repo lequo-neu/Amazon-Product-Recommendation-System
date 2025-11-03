@@ -1,0 +1,36 @@
+{
+  "weight_configs": {
+    "new-user": {
+      "user": 0.0,
+      "item": 0.0,
+      "content": 0.0,
+      "model": 0.0,
+      "trending": 1.0
+    },
+    "cold-user": {
+      "user": 0.1,
+      "item": 0.1,
+      "content": 0.1,
+      "model": 0.35,
+      "trending": 0.35
+    },
+    "warm-user": {
+      "user": 0.1,
+      "item": 0.1,
+      "content": 0.1,
+      "model": 0.3,
+      "trending": 0.3
+    }
+  },
+  "cold_threshold": 5,
+  "metadata": {
+    "models_used": [
+      "user",
+      "item",
+      "content",
+      "model",
+      "trending"
+    ],
+    "category": "Electronics"
+  }
+}
