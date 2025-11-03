@@ -240,6 +240,7 @@ Real-time Refresh → NEW recommendations instantly!
 
 #### Cold-Start Handling
 ![Cold-Start UI](./images/screenshots/cold_start_ui.png)
+
 ![Cold-Start UI](./images/screenshots/cold_start_ui_1.png)
 *Adaptive algorithm selection for users with limited history*
 
@@ -353,15 +354,11 @@ python -m ipykernel install --user --name=venv
 ![All Metrics Comparison](./images/results/comparison_all_metrics.png)
 *Comparative analysis of all recommendation algorithms across key metrics*
 
-![Per-Category Comparison](./images/results/comparison_per_category.png)
-*Performance breakdown by product category*
-
 ### Performance Summary
 
 View detailed comparisons in:
 - `./models/comparison_all_models.csv`
 - `./images/results/comparison_all_metrics.png`
-- `./images/results/comparison_per_category.png`
 
 **Best Performing Models by Metric:**
 - **NDCG@10:** Model-Based (SVD) - Best ranking quality
