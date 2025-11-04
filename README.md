@@ -33,9 +33,8 @@
 2. **Adaptive Hybrid System:** Recommendation weights automatically adjust based on user scenario (new/cold/warm/active)
 
 **Known Limitations (Acknowledged in Report):**
-1. **Perfect Recall Artifact:** Small test set causes 1.0 recall (not representative of real-world performance)
-2. **Hybrid Performance:** Requires weight optimization for better results
-3. **Sample Size:** 50K samples vs millions (speed vs accuracy tradeoff)
+1. **Hybrid Performance:** Requires weight optimization for better results
+2. **Sample Size:** 50K samples vs millions (speed vs accuracy tradeoff)
 
 ---
 
