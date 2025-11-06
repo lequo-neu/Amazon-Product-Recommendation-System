@@ -634,6 +634,7 @@ function App() {
                 items={groupedColdItems[ratingLevel] || []}
                 onRate={handleRate}
                 isLoggedIn={isLoggedIn}
+                setShowAuth={setShowAuth}
               />
             ))}
           </div>
@@ -945,7 +946,7 @@ function ProductCard({ product, onRate, rank, isLoggedIn }) {
   );
 }
 
-function ColdItemRow({ ratingLevel, items, onRate, isLoggedIn }) {
+function ColdItemRow({ ratingLevel, items, onRate, isLoggedIn, setShowAuth }) {
   const scrollRef = React.useRef(null);
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 5;
@@ -988,7 +989,7 @@ function ColdItemRow({ ratingLevel, items, onRate, isLoggedIn }) {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 px-16">
           {displayedItems.map(item => (
-            <ColdItemCard key={item.parent_asin} item={item} onRate={onRate} isLoggedIn={isLoggedIn} />
+            <ColdItemCard key={item.parent_asin} item={item} onRate={onRate} isLoggedIn={isLoggedIn} setShowAuth={setShowAuth} />
           ))}
         </div>
 
@@ -1007,7 +1008,7 @@ function ColdItemRow({ ratingLevel, items, onRate, isLoggedIn }) {
   );
 }
 
-function ColdItemCard({ item, onRate, isLoggedIn }) {
+function ColdItemCard({ item, onRate, isLoggedIn, setShowAuth }) {
   const [showRating, setShowRating] = useState(false);
   const [selectedRating, setSelectedRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
@@ -1118,14 +1119,26 @@ function ColdItemCard({ item, onRate, isLoggedIn }) {
         )}
 
         {!isLoggedIn && (
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-            }}
-            className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-gray-900 text-sm font-medium py-2 rounded-lg border border-[#FCD200] shadow-sm transition"
-          >
-            Add to Cart
-          </button>
+          <div className="space-y-2 pt-2">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAuth(true);
+              }}
+              className="w-full bg-[#FFD814] hover:bg-[#F7CA00] text-gray-900 text-xs font-medium py-1.5 rounded-md border border-[#FCD200] shadow-sm transition truncate"
+            >
+              Rate Product
+            </button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAuth(true);
+              }}
+              className="w-full bg-[#FFA41C] hover:bg-[#FA8900] text-white text-xs font-medium py-1.5 rounded-md shadow-sm transition truncate"
+            >
+              Add to Cart
+            </button>
+          </div>
         )}
 
         {isLoggedIn && showRating && (

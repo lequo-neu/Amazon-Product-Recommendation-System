@@ -2,32 +2,6 @@ import numpy as np
 from sklearn.metrics import mean_squared_error
 from typing import List, Set, Dict, Optional
 
-
-# ==============================================================================
-# RATING PREDICTION METRICS
-# # ==============================================================================
-# def compute_rmse_accuracy(predictions: np.ndarray, 
-#                          actuals: np.ndarray, 
-#                          threshold: float = 3.5) -> tuple[float, float]:
-#     # Filter out NaN values
-#     mask = ~np.isnan(actuals)
-    
-#     if mask.sum() == 0:
-#         return np.nan, np.nan
-    
-#     pred_filtered = predictions[mask]
-#     actual_filtered = actuals[mask]
-    
-#     # RMSE
-#     rmse = np.sqrt(mean_squared_error(actual_filtered, pred_filtered))
-    
-#     # Accuracy (binary: above/below threshold)
-#     accuracy = np.mean(
-#         (pred_filtered >= threshold) == (actual_filtered >= threshold)
-#     )
-    
-#     return rmse, accuracy
-
 def compute_rmse_accuracy(predictions: np.ndarray, 
                          actuals: np.ndarray, 
                          threshold: float = 3.5) -> tuple[float, float]:
